@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-journey-mosaic
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: journey_mosaic
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    ports:
+      - "3308:3306"  # Porta externa alterada para 3308 para evitar conflito
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init_sqls:/docker-entrypoint-initdb.d  # Executa scripts SQL ao iniciar
+    networks:
+      - journey-mosaic
+
+volumes:
+  db_data:
+
+networks:
+  journey-mosaic:
+    driver: bridge
